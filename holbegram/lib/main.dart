@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'env.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() async {
-  // changed to async to use the generated env
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: firebaseConfig,
+  );
   runApp(const MyApp());
 }
 
