@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/text_field.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final TextEditingController emailController;
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Image.asset(
-              '../../assets/images/logo.webp',
+              'assets/images/logo.webp',
               width: 80,
               height: 60,
             ),
@@ -120,7 +121,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         const Text('Don\'t have an account? '),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return SignUp(
+                                emailController: TextEditingController(),
+                                usernameController: TextEditingController(),
+                                passwordController: TextEditingController(),
+                                passwordConfirmController:
+                                    TextEditingController(),
+                              );
+                            }));
+                          },
                           child: const Text(
                             'Sign up',
                             style: TextStyle(
@@ -148,8 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        '../../assets/images/google_logo.png',
+                      Image.network(
+                        'https://img.icons8.com/color/452/google-logo.png',
                         width: 40,
                         height: 40,
                       ),

@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'env.dart';
 import 'screens/login_screen.dart';
+import 'screens/signup_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,10 +16,8 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // add the apiKey from the generated env
     String apiKey = Env.googleApiKey;
 
     return MaterialApp(
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(apiKey: apiKey), // remove const and title parameter
+      home: MyHomePage(apiKey: apiKey),
     );
   }
 }
@@ -42,29 +41,46 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
-
-  @override
-  void initState() {
-    super.initState();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LoginScreen(
-        emailController: _emailController,
-        passwordController: _passwordController,
+      appBar: AppBar(
+        title: const Text('Home Page'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LoginScreen(
+                            emailController: TextEditingController(),
+                            passwordController: TextEditingController(),
+                          )),
+                );
+              },
+              child: const Text('Go to Login'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SignUp(
+                            emailController: TextEditingController(),
+                            usernameController: TextEditingController(),
+                            passwordController: TextEditingController(),
+                            passwordConfirmController: TextEditingController(),
+                          )),
+                );
+              },
+              child: const Text('Go to Sign Up'),
+            ),
+          ],
+        ),
       ),
     );
   }
