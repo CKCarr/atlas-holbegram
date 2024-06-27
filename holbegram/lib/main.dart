@@ -4,6 +4,7 @@ import 'firebase_options.dart';
 import 'env.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
+import 'screens/auth/upload_image_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,6 +79,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text('Go to Sign Up'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AddPicture(
+                            email: 'user@example.com',
+                            password: 'password123',
+                            username: 'username',
+                          )),
+                );
+              },
+              child: const Text('Go to Add Picture'),
             ),
           ],
         ),
