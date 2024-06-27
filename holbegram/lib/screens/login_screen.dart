@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/text_field.dart';
 import 'signup_screen.dart';
+import '../methods/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
   final TextEditingController emailController;
@@ -18,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _passwordVisible = true;
+  final AuthMethods _authMethods = AuthMethods();
 
   @override
   void initState() {
@@ -30,6 +32,24 @@ class _LoginScreenState extends State<LoginScreen> {
     widget.emailController.dispose();
     widget.passwordController.dispose();
     super.dispose();
+  }
+
+// Login user method to be called when the login button is pressed
+// with authentication methods from the AuthMethods class
+  Future<void> _loginUser() async {
+    String result = await _authMethods.login(
+      email: widget.emailController.text,
+      password: widget.passwordController.text,
+    );
+    if (result == 'success') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login successful')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result)),
+      );
+    }
   }
 
   @override
@@ -94,7 +114,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Color.fromARGB(218, 226, 37, 24),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _loginUser();
+                      }, // CALL LOGIN METHOD
                       child: const Text(
                         'Log in',
                         style: TextStyle(color: Colors.white),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/text_field.dart';
 import 'login_screen.dart';
+import '../methods/auth_methods.dart';
 
 class SignUp extends StatefulWidget {
   final TextEditingController emailController;
@@ -22,6 +23,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   bool _passwordVisible = true;
+  final AuthMethods _authMethods = AuthMethods();
 
   @override
   void initState() {
@@ -36,6 +38,25 @@ class _SignUpState extends State<SignUp> {
     widget.passwordController.dispose();
     widget.passwordConfirmController.dispose();
     super.dispose();
+  }
+
+  // Create a method to sign up a user
+  Future<void> _signUpUser() async {
+    String result = await _authMethods.signUpUser(
+      email: widget.emailController.text,
+      username: widget.usernameController.text,
+      password: widget.passwordController.text,
+      file: null, // handle file upload if necessary
+    );
+    if (result == 'success') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sign up successful')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result)),
+      );
+    }
   }
 
   @override
@@ -127,7 +148,9 @@ class _SignUpState extends State<SignUp> {
                           const Color.fromARGB(218, 226, 37, 24),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _signUpUser();
+                      }, // ADD SIGNUP_USER AUTH METHOD
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(color: Colors.white),
